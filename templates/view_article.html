@@ -1,0 +1,188 @@
+<!-- templates/article.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <style>
+      .back-home-btn {
+          display: inline-block;
+          padding: 10px 20px;
+          margin-top: 20px;
+          font-size: 16px;
+          font-weight: 500;
+          color: #ffffff;
+          background-color: #000000;
+          border: none;
+          border-radius: 5px;
+          text-align: center;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+      }
+      .back-home-btn:hover {
+          background-color: #222230;
+      }
+      .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        height: auto;
+      }
+  </style>
+</head>
+<body id="top">
+    <div class="loader">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Loading Logo">
+    </div>
+    <header class="header" data-header>
+        <div class="container">
+            <nav class="navbar" data-navbar>
+                <ul class="navbar-list container">
+                    <li>
+                        <a href="{{ url_for('index') }}" class="navbar-link active" data-nav-link>BERANDA</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('klasifikasi_tektonik') }}" class="navbar-link" data-nav-link="">KLASIFIKASI GEMPA TEKTONIK</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('chatbott') }}" class="navbar-link" data-nav-link>CHATBOT</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="logo">
+                <a href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Kamu" class="img-fluid"></a>
+            </div>
+            <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+                <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+            </button>
+        </div>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Konten Utama Artikel -->
+    <div class="container">
+        <h1 style="text-align: center; font-weight: bold;">{{ article.title }}</h1>
+        <img class="center" style="text-align: center;" src="{{ article.image_url }}" alt="Gambar Artikel">
+        <p style="font-size: 18px; text-align: justify;">{{ article.content }}</p>
+        <p style="font-size: 16px;""><small>Posted on: {{ article.date_posted }}</small></p>
+        <a href="{{ url_for('index') }}" class="back-home-btn">Kembali ke Beranda</a>
+    </div>
+    <br>
+    <footer class="footer">
+        <div class="section footer-top">
+            <div class="container">
+                <div class="footer-brand">
+                    <a href="#" class="logo">APLIKASI GEMPA</a>
+                    <p class="section-text">
+                        SeismoSavior adalah aplikasi pemantau gempa berbasis web yang menyediakan informasi real-time tentang aktivitas seismik, dilengkapi dengan fitur chatbot AI bernama Savior. 
+                    </p>
+                    <ul class="social-list">
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-instagram"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-youtube"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-facebook"></ion-icon>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="social-link">
+                                <ion-icon name="logo-google"></ion-icon>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="footer-list">
+                    <li>
+                        <p class="footer-list-title">Jelajahi</p>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Fitur Aplikasi</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Tentang Kami</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Kontak Kami</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Artikel Gempa</a>
+                    </li>
+                </ul>
+                <ul class="footer-list">
+                    <li>
+                        <p class="footer-list-title">Lainnya</p>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Kebijakan Privasi</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Download Aplikasi</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer-link">Syarat & Ketentuan</a>
+                    </li>
+                </ul>
+                <ul class="footer-list">
+                    <li>
+                        <p class="footer-list-title">Hubungi Kami</p>
+                    </li>
+                    <li class="footer-item">
+                        <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+                        <a href="tel:087791921967" class="item-link">0814-7663-1143</a>
+                    </li>
+                    <li class="footer-item">
+                        <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+                        <a href="mailto:laelinurafiah17@gmail.com" class="item-link">laelinurafiah17@gmail.com</a>
+                    </li>
+                    <li class="footer-item">
+                        <ion-icon name="map-outline" aria-hidden="true"></ion-icon>
+                        <address class="item-link address">
+                            Tegal, Jawa Tengah, Indonesia
+                        </address>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="copyright">
+                    &copy; 2024 All Rights Reserved by <a href="#" class="copyright-link">Aplikasi Gempa</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // JavaScript untuk menyembunyikan efek loading setelah 3 detik
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                const loader = document.querySelector(".loader");
+                loader.style.display = "none";
+            }, 2000); // 2000 milidetik = 2 detik
+        });
+    </script>
+</body>
+</html>

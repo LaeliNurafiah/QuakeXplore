@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pemantau Gempa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+        padding-bottom: 60px; /* Give space for footer */
+      }
+      footer {
+        background-color: #f1f1f1;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        width: 100%;
+        bottom: 0;
+      }
+      .chatbot-icon {
+        position: fixed;
+        bottom: 80px; /* Place above footer */
+        right: 20px;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 1000; /* Ensure it is above other elements */
+      }
+      .chatbot-popup {
+        position: fixed;
+        bottom: 120px; /* Place above footer */
+        right: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 300px;
+        max-height: 400px;
+        overflow: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1000; /* Ensure it is above other elements */
+      }
+      .chatbot-content {
+        padding: 20px;
+      }
+      .chatbot-close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="{{ url_for('klasifikasi_tektonik') }}">KLASIFIKASI GEMPA TEKTONIK</a></li>
+        <li><a href="#">KLASIFIKASI GEMPA VULKANIK</a></li>
+      </ul>
+    </nav>
+    <main>
+      <div class="container">
+        <h1 class="mt-5">TABEL DAN DIAGRAM PREDIKSI GEMPA</h1>
+        <form action="{{ url_for('index') }}" method="post" class="form-inline mb-4">
+          <div class="form-group mr-2">
+            <label for="month" class="mr-2">Month:</label>
+            <select name="month" id="month" class="form-control">
+              {% for month in months %}
+                <option value="{{ month }}" {% if month == selected_month %}selected{% endif %}>{{ month }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group mr-2">
+            <label for="year" class="mr-2">Year:</label>
+            <select name="year" id="year" class="form-control">
+              {% for year in years %}
+                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        
+        {% if selected_month and selected_year %}
+          <h2 class="mb-4">Forecast Data for {{ selected_month }}/{{ selected_year }}</h2>
+          {% if data.empty %}
+            <p>No data available for this period.</p>
+          {% else %}
+            <table class="table table-striped table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Magnitudo Forecast</th>
+                  <th>Kedalaman Forecast</th>
+                  <th>Provinsi Forecast</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for index, row in data.iterrows() %}
+                  <tr>
+                    <td>{{ row['tanggal'].strftime('%Y-%m-%d') }}</td>
+                    <td>{{ row['magnitudo_forecast'] }}</td>
+                    <td>{{ row['kedalaman_forecast'] }}</td>
+                    <td>{{ row['provinsi_forecast'] }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <h1>ARTIKEL TENTANG GEMPA</h1>
+      <!-- Artikel 1 -->
+      <div class="article" onclick="showArticleLink(1)">
+        <img src="{{ url_for('static', filename='images/gambar1.jpg') }}" alt="Gambar Artikel 1" />
+        <div class="article-overlay">Ulasan Guncangan Tanah Akibat Gempabumi Di Sumedang 31 Desember 2023</div>
+      </div>
+      <!-- Artikel 2 -->
+      <div class="article" onclick="showArticleLink(2)">
+        <img src="{{ url_for('static', filename='images/gambar1.jpg') }}" alt="Gambar Artikel 2" />
+        <div class="article-overlay">Ulasan Guncangan Tanah Akibat Gempabumi Di Sumedang 31 Desember 2023</div>
+      </div>
+      <!-- Artikel 3 -->
+      <div class="article" onclick="showArticleLink(3)">
+        <img src="{{ url_for('static', filename='images/gambar1.jpg') }}" alt="Gambar Artikel 3" />
+        <div class="article-overlay">Ulasan Guncangan Tanah Akibat Gempabumi Di Sumedang 31 Desember 2023</div>
+      </div>
+      <!-- Artikel 4 -->
+      <div class="article" onclick="showArticleLink(4)">
+        <img src="{{ url_for('static', filename='images/gambar1.jpg') }}" alt="Gambar Artikel 4" />
+        <div class="article-overlay">Ulasan Guncangan Tanah Akibat Gempabumi Di Sumedang 31 Desember 2023</div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Pemantau Gempa</p>
+    </footer>
+
+    <div class="chatbot-icon" onclick="openChatbot()">Chatbot</div>
+    <div class="chatbot-popup" id="chatbot-popup">
+      <div class="chatbot-content">
+        <!-- Konten chatbot -->
+        <div class="chatbot-close" onclick="closeChatbot()">&times;</div>
+      </div>
+    </div>
+
+    <script>
+      function showArticleLink(articleId) {
+        var articleUrls = {
+          1: "https://www.bmkg.go.id/berita/?p=ulasan-guncangan-tanah-akibat-gempabumi-di-sumedang-31-desember-2023&lang=ID&s=detil",
+          2: "link_artikel_2",
+          3: "link_artikel_3",
+          4: "link_artikel_4",
+        };
+        // Buka halaman artikel sesuai dengan ID dalam tab baru
+        window.open(articleUrls[articleId], "_blank");
+      }
+
+      function openChatbot() {
+        // Menggunakan AJAX untuk memuat konten chatbot.html
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/chatbot', true); // Mengambil halaman chatbot langsung dari route '/chatbot'
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            // Memasukkan konten chatbot.html ke dalam popup chatbot
+            document.getElementById('chatbot-popup').innerHTML = xhr.responseText;
+            document.getElementById('chatbot-popup').style.display = 'block'; // Menampilkan popup chatbot
+          }
+        };
+        xhr.send();
+      }
+
+      function closeChatbot() {
+        document.getElementById('chatbot-popup').style.display = 'none'; // Menutup popup chatbot
+      }
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

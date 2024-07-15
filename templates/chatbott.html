@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Savior</title>
+  <link rel="shortcut icon" href="static/images/logo.png" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styless.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css">
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <style>
+    #map {
+      height: 500px;
+    }
+  </style>
+</head>
+
+<body id="top">
+  <div class="loader">
+    <img src="static/images/logo.png" alt="Loading Logo">
+  </div>
+
+  <header class="header" data-header>
+    <div class="container">
+      <nav class="navbar" data-navbar>
+        <ul class="navbar-list container">
+          <li>
+            <a href="{{ url_for('index') }}" class="navbar-link active" data-nav-link>BERANDA</a>
+          </li>
+          <li>
+            <a href="{{ url_for('klasifikasi_tektonik') }}" class="navbar-link" data-nav-link>KLASIFIKASI GEMPA TEKTONIK</a>
+          </li>
+          <li>
+            <a href="{{ url_for('klasifikasi_vulkanik') }}" class="navbar-link" data-nav-link>KLASIFIKASI GEMPA VULKANIK</a>
+          </li>
+          <li>
+            <a href="{{ url_for('chatbott') }}" class="navbar-link" data-nav-link>CHATBOT</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="logo">
+        <a href="{{ url_for('index') }}"><img src="static/images/logo.png" alt="Logo Kamu" class="img-fluid"></a>
+      </div>
+
+      <button class="nav-toggle-btn" aria-label="toggle menu" data-nav-toggler>
+        <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+      </button>
+    </div>
+  </header>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <main>
+    <article>
+      <div class="container chat-container">
+        <div class="chat-header">CHATBOT SAVIOR</div>
+        <div class="chat-box" id="chat-box">
+          <div class="chat-message bot-message">Selamat datang Chatbot Savior. Klik "Pilih Lokasi Sekarang" untuk memulai.</div>
+        </div>
+        <div class="chat-input">
+          <button id="pick-location">Pilih Lokasi Sekarang</button>
+        </div>
+        <div id="map-container" style="display: none">
+          <div id="map"></div>
+          <div class="chat-input">
+            <button id="share-location">Konfirmasi Lokasi</button>
+          </div>
+        </div>
+        <div id="selected-location" style="display: none">
+          <div class="chat-message bot-message">Lokasi yang Anda pilih:</div>
+          <div id="selected-location-info"></div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="section footer-top">
+      <div class="container">
+        <div class="footer-brand">
+          <a href="#" class="logo">APLIKASI GEMPA</a>
+          <p class="section-text">
+            SeismoSavior adalah aplikasi pemantau gempa berbasis web yang menyediakan informasi real-time tentang aktivitas seismik, dilengkapi dengan fitur chatbot AI bernama Savior.
+          </p>
+          <ul class="social-list">
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-google"></ion-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Jelajahi</p>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Fitur Aplikasi</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Tentang Kami</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Kontak Kami</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Artikel Gempa</a>
+          </li>
+        </ul>
+
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Lainnya</p>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Kebijakan Privasi</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Download Aplikasi</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Syarat & Ketentuan</a>
+          </li>
+        </ul>
+
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Hubungi Kami</p>
+          </li>
+          <li class="footer-item">
+            <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+            <a href="087791921967" class="item-link">0814-7663-1143</a>
+          </li>
+          <li class="footer-item">
+            <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+            <a href="mailto:laelinurafiah17@gmail.com" class="item-link">laelinurafiah17@gmail.com</a>
+          </li>
+          <li class="footer-item">
+            <ion-icon name="map-outline" aria-hidden="true"></ion-icon>
+            <address class="item-link address">
+              Tegal, Jawa Tengah, Indonesia
+            </address>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="copyright">
+          &copy; 2024 All Rights Reserved by <a href="#" class="copyright-link">Aplikasi Gempa</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // JavaScript untuk menyembunyikan efek loading setelah 3 detik
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        const loader = document.querySelector(".loader");
+        loader.style.display = "none";
+      }, 2000); // 2000 milidetik = 2 detik
+    });
+
+    function showArticleLink(articleId) {
+      var articleUrls = {
+        1: "https://www.bmkg.go.id/berita/?p=ulasan-guncangan-tanah-akibat-gempabumi-di-sumedang-31-desember-2023&lang=ID&s=detil",
+        2: "link_artikel_2",
+        3: "link_artikel_3",
+        4: "link_artikel_4",
+      };
+      // Buka halaman artikel sesuai dengan ID dalam tab baru
+      window.open(articleUrls[articleId], "_blank");
+    }
+  </script>
+
+  <script src="static/assets/js/script.js" defer></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    let map, marker, routingControl;
+
+document.getElementById("pick-location").addEventListener("click", function () {
+    document.getElementById("map-container").style.display = "block";
+    if (!map) {
+        map = L.map('map').setView([-6.879704, 109.125595], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        })
+        .on('markgeocode', function(e) {
+            var bbox = e.geocode.bbox;
+            var poly = L.polygon([
+                [bbox.getSouthEast().lat, bbox.getSouthEast().lng],
+                [bbox.getNorthEast().lat, bbox.getNorthEast().lng],
+                [bbox.getNorthWest().lat, bbox.getNorthWest().lng],
+                [bbox.getSouthWest().lat, bbox.getSouthWest().lng]
+            ]).addTo(map);
+            map.fitBounds(poly.getBounds());
+
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.geocode.center).addTo(map);
+            document.getElementById("share-location").dataset.lat = e.geocode.center.lat;
+            document.getElementById("share-location").dataset.lon = e.geocode.center.lng;
+        })
+        .addTo(map);
+
+        map.on('click', function(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+            document.getElementById("share-location").dataset.lat = e.latlng.lat;
+            document.getElementById("share-location").dataset.lon = e.latlng.lng;
+        });
+    }
+});
+
+document.getElementById("share-location").addEventListener("click", function () {
+    const lat = this.dataset.lat;
+    const lon = this.dataset.lon;
+
+    if (!lat || !lon) {
+        alert("Silakan pilih lokasi di peta terlebih dahulu!");
+        return;
+    }
+
+    getLocationName(lat, lon, function(locationName) {
+        document.getElementById("chat-box").innerHTML +=
+            '<div class="chat-message user-message">Lokasi Dibagikan: ' + locationName + ' (' + lat + ", " + lon + ")</div>";
+        document.getElementById("selected-location").style.display = "block";
+        document.getElementById("selected-location-info").innerHTML =
+            "Nama Lokasi: " + locationName + "<br>Latitude: " + lat + ", Longitude: " + lon;
+        fetchNearestLocation(lat, lon);
+    });
+});
+
+function getLocationName(lat, lon, callback) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+    .then(response => response.json())
+    .then(data => {
+        const locationName = data.display_name || "Tidak diketahui";
+        callback(locationName);
+    })
+    .catch(error => {
+        console.error("Error getting location name: ", error);
+        callback("Tidak diketahui");
+    });
+}
+
+function fetchNearestLocation(lat, lon) {
+    fetch("/location/nearest", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ lat: lat, lon: lon }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        var chatBox = document.getElementById("chat-box");
+
+        if (routingControl) {
+            map.removeControl(routingControl);
+        }
+
+        routingControl = L.Routing.control({
+            waypoints: [
+                L.latLng(lat, lon),
+                L.latLng(data.Latitude, data.Longitude)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+
+        chatBox.innerHTML +=
+            '<div class="chat-message bot-message">Lokasi Terdekat: ' + data["Nama Lokasi"] + '</div>';
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+}
+
+  </script>
+</body>
+</html>

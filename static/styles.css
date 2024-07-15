@@ -1,0 +1,157 @@
+/* Style untuk navbar */
+nav {
+  background-color: #68bbe8;
+  color: #464040;
+  padding: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #464040;
+  text-decoration: none;
+}
+
+/* Style untuk konten utama */
+main {
+  padding: 20px;
+}
+
+/* Style untuk chatbot icon */
+.chatbot-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px; /* Lebar ikon */
+  height: 60px; /* Tinggi ikon */
+  background-color: #007bff; /* Warna biru */
+  color: #fff;
+  border-radius: 50%; /* Membuat oval */
+  display: flex;
+  justify-content: center; /* Pusatkan tulisan */
+  align-items: center; /* Pusatkan tulisan */
+  cursor: pointer;
+}
+
+/* Style untuk teks di dalam ikon */
+.chatbot-icon-text {
+  font-size: 14px;
+}
+.chatbot-popup {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: 1px solid #ccc;
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.chatbot-content {
+  padding: 10px;
+}
+
+.chatbot-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.chatbot-close:hover,
+.chatbot-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* CSS untuk menambahkan border ke tabel */
+#prediction-table {
+  border-collapse: collapse; /* Menggabungkan batas sel */
+  width: 50%; /* Lebar tabel */
+}
+
+#prediction-table th,
+#prediction-table td {
+  border: 1px solid #ddd; /* Batas 1px solid warna abu-abu */
+  padding: 8px; /* Ruang dalam sel */
+  text-align: left; /* Penataan teks */
+}
+
+#prediction-table th {
+  background-color: #f2f2f2; /* Warna latar belakang untuk header */
+  color: #333; /* Warna teks header */
+}
+/* CSS untuk layout prediksi gempa dan artikel */
+section {
+  margin-bottom: 20px; /* Spasi bawah */
+  display: flex; /* Menggunakan flexbox */
+}
+
+.prediction-container {
+  width: 50%; /* Lebar tabel */
+}
+
+.prediction-chart-container {
+  width: 30%; /* Lebar diagram */
+}
+
+#prediction-table {
+  width: 70%; /* Tabel mengambil lebar maksimum */
+}
+
+.article {
+  display: inline-block;
+  text-align: center;
+  width: calc(25% - 25px); /* Set width to 25% minus margin */
+  margin: 10px;
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: repeat(4, 1fr); /* Empat kolom dengan lebar yang sama */
+}
+.article img {
+  width: 80%;
+  height: auto; /* Allow the height to adjust based on the image's aspect ratio */
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.article-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.article:hover .article-overlay {
+  opacity: 1;
+}
+
+footer {
+  background-color: #68bbe8;
+  color: #464040;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1; /* Tambahkan z-index */
+}
